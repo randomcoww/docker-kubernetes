@@ -1,0 +1,24 @@
+FROM golang:1.12-alpine as BUILD
+
+WORKDIR /go/src/github.com/kubernetes
+ENV KUBERNETES_VERSION v1.15.3
+
+RUN set -x \
+  \
+  && apk add --no-cache \
+    git \
+    make \
+    bash \
+    rsync \
+    g++ \
+    linux-headers \
+  \
+  && git clone -b $KUBERNETES_VERSION \
+    https://github.com/kubernetes/kubernetes.git \
+  && cd kubernetes \
+  && make -j "$(getconf _NPROCESSORS_ONLN)" \
+    WHAT="cmd/kube-proxy"
+
+FROM alpine:edge
+
+COPY --from=BUILD /go/src/github.com/kubernetes/kubernetes/_output/bin/kube-proxy /usr/local/bin/
