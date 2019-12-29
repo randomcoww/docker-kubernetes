@@ -1,3 +1,5 @@
+## https://github.com/kubernetes/kubernetes/blob/master/build/debian-iptables/Dockerfile
+
 FROM golang:1.12-alpine as BUILD
 
 WORKDIR /go/src/github.com/kubernetes
@@ -25,4 +27,11 @@ COPY --from=BUILD /go/src/github.com/kubernetes/kubernetes/_output/bin/kube-prox
 RUN set -x \
   \
   && apk add --no-cache \
-    iptables
+    conntrack-tools \
+    ebtables \
+    iptables \
+    ipset \
+    kmod \
+  \
+  && cd /sbin \
+  && ln -sf xtables-nft-multi iptables

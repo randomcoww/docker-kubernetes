@@ -1,3 +1,6 @@
+## Smaller kubelet image for running simple static pods
+## https://github.com/kubernetes/kubernetes/blob/master/build/debian-hyperkube-base/Dockerfile
+
 FROM golang:1.12-alpine as BUILD
 
 WORKDIR /go/src/github.com/kubernetes
@@ -21,8 +24,21 @@ RUN set -x \
 
 FROM alpine:edge
 
-COPY --from=BUILD /go/src/github.com/kubernetes/kubernetes/_output/bin/kubelet /
+COPY --from=BUILD /go/src/github.com/kubernetes/kubernetes/_output/bin/kubelet /usr/local/bin/
 RUN set -x \
   \
   && apk add --no-cache \
-    iptables
+    ca-certificates \
+    conntrack-tools \
+    ebtables \
+    ethtool \
+    iptables \
+    ipset \
+    kmod \
+    socat \
+    udev \
+    util-linux \
+  \
+  && cd /sbin \
+  && ln -sf xtables-nft-multi iptables \
+  && ln -sf /usr/local/bin/kubelet /kubelet
