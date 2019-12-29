@@ -38,6 +38,7 @@ RUN set -x \
     socat \
     udev \
     util-linux \
+    coreutils \
   \
   && cd /sbin \
   && ln -sf xtables-nft-multi iptables \
