@@ -19,7 +19,7 @@ RUN set -x \
   && make -j "$(getconf _NPROCESSORS_ONLN)" \
     WHAT="cmd/kube-apiserver cmd/kube-controller-manager cmd/kube-scheduler"
 
-FROM alpine:edge
+FROM busybox:latest
 
 COPY --from=BUILD /go/src/github.com/kubernetes/kubernetes/_output/bin/kube-apiserver /usr/local/bin/
 COPY --from=BUILD /go/src/github.com/kubernetes/kubernetes/_output/bin/kube-controller-manager /usr/local/bin/
