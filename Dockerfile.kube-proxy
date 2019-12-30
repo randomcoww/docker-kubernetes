@@ -3,7 +3,7 @@
 FROM golang:1.12-alpine as BUILD
 
 WORKDIR /go/src/github.com/kubernetes
-ENV KUBERNETES_VERSION v1.15.3
+ENV KUBERNETES_VERSION v1.16.4
 
 RUN set -x \
   \
