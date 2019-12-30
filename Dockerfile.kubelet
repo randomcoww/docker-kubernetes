@@ -42,6 +42,8 @@ RUN set -x \
     coreutils \
     findutils \
   \
+  && ln -sf /usr/local/bin/kubelet /kubelet \
   && cd /sbin \
   && ln -sf xtables-nft-multi iptables \
-  && ln -sf /usr/local/bin/kubelet /kubelet
+  && ln -sf xtables-nft-multi iptables-restore \
+  && ln -sf xtables-nft-multi iptables-save
