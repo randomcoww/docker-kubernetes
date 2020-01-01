@@ -1,6 +1,6 @@
 ## https://github.com/kubernetes/kubernetes/blob/master/build/debian-iptables/Dockerfile
 
-FROM golang:1.12-alpine as BUILD
+FROM golang:1.13-alpine as BUILD
 
 WORKDIR /go/src/github.com/kubernetes
 ENV KUBERNETES_VERSION v1.17.0
