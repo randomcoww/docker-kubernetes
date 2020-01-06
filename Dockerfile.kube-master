@@ -17,7 +17,9 @@ RUN set -x \
     https://github.com/kubernetes/kubernetes.git \
   && cd kubernetes \
   && make -j "$(getconf _NPROCESSORS_ONLN)" \
-    WHAT="cmd/kube-apiserver cmd/kube-controller-manager cmd/kube-scheduler"
+    kube-apiserver \
+    kube-controller-manager \
+    kube-scheduler
 
 FROM scratch
 
