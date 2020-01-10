@@ -1,0 +1,18 @@
+#!/bin/sh
+#
+# Removes -w and -W passed into legacy iptables-restore call:
+#
+# Legacy:
+# Usage: iptables-restore [-c] [-v] [-V] [-t] [-h] [-n] [-w secs] [-W usecs] [-T table] [-M command] [file]
+#
+# NFT:
+# Usage: iptables-restore [-c] [-v] [-V] [-t] [-h] [-n] [-T table] [-M command] [-4] [-6] [file]
+
+cmd=""
+while [[ "$#" -gt 0 ]]; do case $1 in
+  -w|--wait) shift ;;
+  -W|--wait-interval) shift ;;
+  *) cmd="$cmd $1" ;;
+esac; shift; done
+
+iptables-nft-restore $cmd

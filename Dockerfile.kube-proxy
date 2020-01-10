@@ -23,6 +23,7 @@ RUN set -x \
 FROM alpine:edge
 
 COPY --from=BUILD /go/src/github.com/kubernetes/kubernetes/_output/bin/kube-proxy /usr/local/bin/
+COPY iptables-restore-wrapper /usr/local/bin/
 RUN set -x \
   \
   && apk add --no-cache \
@@ -34,5 +35,5 @@ RUN set -x \
   \
   && cd /sbin \
   && ln -sf xtables-nft-multi iptables \
-  && ln -sf xtables-nft-multi iptables-restore \
-  && ln -sf xtables-nft-multi iptables-save
+  && ln -sf xtables-nft-multi iptables-save \
+  && ln -sf /usr/local/bin/iptables-restore-wrapper iptables-restore
