@@ -30,9 +30,4 @@ RUN set -x \
     ebtables \
     iptables \
     ipset \
-    kmod \
-  \
-  && cd /sbin \
-  && ln -sf xtables-nft-multi iptables \
-  && ln -sf xtables-nft-multi iptables-restore \
-  && ln -sf xtables-nft-multi iptables-save
+    kmod
