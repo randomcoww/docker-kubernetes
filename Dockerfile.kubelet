@@ -1,7 +1,7 @@
 FROM golang:1.13-alpine as BUILD
 
 WORKDIR /go/src/github.com/kubernetes
-ENV KUBERNETES_VERSION v1.17.0
+ENV VERSION v1.17.0
 
 RUN set -x \
   \
@@ -13,7 +13,7 @@ RUN set -x \
     g++ \
     linux-headers \
   \
-  && git clone -b $KUBERNETES_VERSION \
+  && git clone -b $VERSION \
     https://github.com/kubernetes/kubernetes.git \
   && cd kubernetes \
   && make -j "$(getconf _NPROCESSORS_ONLN)" \
@@ -39,9 +39,4 @@ RUN set -x \
     udev \
     util-linux \
     coreutils \
-    findutils \
-  \
-  && cd /sbin \
-  && ln -sf xtables-nft-multi iptables \
-  && ln -sf xtables-nft-multi iptables-restore \
-  && ln -sf xtables-nft-multi iptables-save
+    findutils
