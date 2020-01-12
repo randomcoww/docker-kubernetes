@@ -39,4 +39,5 @@ RUN set -x \
     udev \
     util-linux \
     coreutils \
-    findutils
+    findutils \
+  && update-ca-certificates
