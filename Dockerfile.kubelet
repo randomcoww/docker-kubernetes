@@ -40,4 +40,5 @@ RUN set -x \
     util-linux \
     coreutils \
     findutils \
+    open-iscsi \
   && update-ca-certificates
