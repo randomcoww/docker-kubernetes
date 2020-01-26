@@ -24,11 +24,16 @@ RUN set -x \
 FROM alpine:edge
 
 COPY --from=BUILD /go/src/github.com/kubernetes/kubernetes/_output/bin/kubelet /usr/local/bin/
+# iscsiadm will call /etc/init.d/iscsid if iscsid is not running
+# /etc/iscsi/iscsid.conf can be mounted to the container
+COPY iscsid-init.sh /etc/init.d/iscsid
 RUN set -x \
   \
   && apk add --no-cache \
     ca-certificates \
     conntrack-tools \
+    e2fsprogs \
+    xfsprogs \
     ebtables \
     ethtool \
     iptables \
@@ -36,9 +41,12 @@ RUN set -x \
     jq \
     kmod \
     socat \
+    nfs-utils \
     udev \
     util-linux \
     coreutils \
     findutils \
     open-iscsi \
-  && update-ca-certificates
+  && update-ca-certificates \
+  # kubelet expects iscsid at /usr/sbin/iscsid
+  && ln -s /sbin/iscsid /usr/sbin/
