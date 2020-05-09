@@ -34,7 +34,6 @@ RUN set -x \
     conntrack-tools \
     e2fsprogs \
     xfsprogs \
-    ebtables \
     ethtool \
     iptables \
     ipset \
@@ -49,4 +48,10 @@ RUN set -x \
     open-iscsi \
   && update-ca-certificates \
   # kubelet expects iscsid at /usr/sbin/iscsid
-  && ln -s /sbin/iscsid /usr/sbin/
+  && ln -s /sbin/iscsid /usr/sbin/ \
+  # link iptables to nft
+  && pushd /sbin \
+  && ln -sf iptables xtables-nft-multi \
+  && ln -sf iptables-restore xtables-nft-multi \
+  && ln -sf iptables-save xtables-nft-multi \
+  && popd

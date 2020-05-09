@@ -27,7 +27,12 @@ RUN set -x \
   \
   && apk add --no-cache \
     conntrack-tools \
-    ebtables \
     iptables \
     ipset \
-    kmod
+    kmod \
+  # link iptables to nft
+  && pushd /sbin \
+  && ln -sf iptables xtables-nft-multi \
+  && ln -sf iptables-restore xtables-nft-multi \
+  && ln -sf iptables-save xtables-nft-multi \
+  && popd
