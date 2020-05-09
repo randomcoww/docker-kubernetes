@@ -50,8 +50,7 @@ RUN set -x \
   # kubelet expects iscsid at /usr/sbin/iscsid
   && ln -s /sbin/iscsid /usr/sbin/ \
   # link iptables to nft
-  && pushd /sbin \
-  && ln -sf iptables xtables-nft-multi \
-  && ln -sf iptables-restore xtables-nft-multi \
-  && ln -sf iptables-save xtables-nft-multi \
-  && popd
+  && cd /sbin \
+  && ln -sf xtables-nft-multi iptables \
+  && ln -sf xtables-nft-multi iptables-restore \
+  && ln -sf xtables-nft-multi iptables-save
