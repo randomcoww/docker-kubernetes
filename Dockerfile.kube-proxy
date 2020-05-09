@@ -20,7 +20,8 @@ RUN set -x \
     kube-proxy
 
 ## https://github.com/kubernetes/kubernetes/blob/master/build/debian-iptables/Dockerfile
-FROM alpine:edge
+# There is bug with iptables-nft-restore on alpine:edge. Use 3.11.
+FROM alpine:3.11
 
 COPY --from=BUILD /go/src/github.com/kubernetes/kubernetes/_output/bin/kube-proxy /usr/local/bin/
 RUN set -x \
@@ -30,8 +31,13 @@ RUN set -x \
     iptables \
     ipset \
     kmod \
-  # link iptables to nft
+  \
+  # use nftables backend for iptables
   && cd /sbin \
   && ln -sf xtables-nft-multi iptables \
   && ln -sf xtables-nft-multi iptables-restore \
-  && ln -sf xtables-nft-multi iptables-save
+  && ln -sf xtables-nft-multi iptables-save \
+  # some k8s packages expect iptables at /usr/sbin
+  && ln -s /sbin/iptables /usr/sbin/ \
+  && ln -s /sbin/iptables-restore /usr/sbin/ \
+  && ln -s /sbin/iptables-save /usr/sbin/

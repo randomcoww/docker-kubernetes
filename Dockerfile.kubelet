@@ -21,7 +21,8 @@ RUN set -x \
 
 ## Smaller kubelet image for running simple static pods
 ## https://github.com/kubernetes/kubernetes/blob/master/build/debian-hyperkube-base/Dockerfile
-FROM alpine:edge
+# There is bug with iptables-nft-restore on alpine:edge. Use 3.11.
+FROM alpine:3.11
 
 COPY --from=BUILD /go/src/github.com/kubernetes/kubernetes/_output/bin/kubelet /usr/local/bin/
 # iscsiadm will call /etc/init.d/iscsid if iscsid is not running
@@ -46,10 +47,15 @@ RUN set -x \
     coreutils \
     findutils \
     open-iscsi \
+  \
   && update-ca-certificates \
   # kubelet expects iscsid at /usr/sbin/iscsid
   && ln -s /sbin/iscsid /usr/sbin/ \
-  # link iptables to nft
+  # some k8s packages expect iptables at /usr/sbin
+  && ln -s /sbin/iptables /usr/sbin/ \
+  && ln -s /sbin/iptables-restore /usr/sbin/ \
+  && ln -s /sbin/iptables-save /usr/sbin/ \
+  # use nftables backend
   && cd /sbin \
   && ln -sf xtables-nft-multi iptables \
   && ln -sf xtables-nft-multi iptables-restore \
