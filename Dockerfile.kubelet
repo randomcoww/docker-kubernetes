@@ -51,12 +51,12 @@ RUN set -x \
   && update-ca-certificates \
   # kubelet expects iscsid at /usr/sbin/iscsid
   && ln -s /sbin/iscsid /usr/sbin/ \
-  # some k8s packages expect iptables at /usr/sbin
-  && ln -s /sbin/iptables /usr/sbin/ \
-  && ln -s /sbin/iptables-restore /usr/sbin/ \
-  && ln -s /sbin/iptables-save /usr/sbin/ \
-  # use nftables backend
+  # use nftables backend for iptables
   && cd /sbin \
   && ln -sf xtables-nft-multi iptables \
   && ln -sf xtables-nft-multi iptables-restore \
-  && ln -sf xtables-nft-multi iptables-save
+  && ln -sf xtables-nft-multi iptables-save \
+  # some k8s packages expect iptables at /usr/sbin
+  && ln -s /sbin/iptables /usr/sbin/ \
+  && ln -s /sbin/iptables-restore /usr/sbin/ \
+  && ln -s /sbin/iptables-save /usr/sbin/
