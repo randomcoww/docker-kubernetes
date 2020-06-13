@@ -1,7 +1,7 @@
 FROM golang:1.13-alpine as BUILD
 
 WORKDIR /go/src/github.com/kubernetes
-ENV VERSION v1.18.2
+ENV VERSION v1.18.3
 
 RUN set -x \
   \
@@ -22,7 +22,7 @@ RUN set -x \
 ## Smaller kubelet image for running simple static pods
 ## https://github.com/kubernetes/kubernetes/blob/master/build/debian-hyperkube-base/Dockerfile
 # There is bug with iptables-nft-restore on alpine:edge. Use 3.11.
-FROM alpine:3.11
+FROM alpine:3.12
 
 COPY --from=BUILD /go/src/github.com/kubernetes/kubernetes/_output/bin/kubelet /usr/local/bin/
 # iscsiadm will call /etc/init.d/iscsid if iscsid is not running
@@ -47,6 +47,7 @@ RUN set -x \
     coreutils \
     findutils \
     open-iscsi \
+    blkid \
   \
   && update-ca-certificates \
   # use nftables backend for iptables

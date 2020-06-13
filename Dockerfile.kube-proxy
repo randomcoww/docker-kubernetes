@@ -1,7 +1,7 @@
 FROM golang:1.13-alpine as BUILD
 
 WORKDIR /go/src/github.com/kubernetes
-ENV VERSION v1.18.2
+ENV VERSION v1.18.3
 
 RUN set -x \
   \
@@ -21,7 +21,7 @@ RUN set -x \
 
 ## https://github.com/kubernetes/kubernetes/blob/master/build/debian-iptables/Dockerfile
 # There is bug with iptables-nft-restore on alpine:edge. Use 3.11.
-FROM alpine:3.11
+FROM alpine:3.12
 
 COPY --from=BUILD /go/src/github.com/kubernetes/kubernetes/_output/bin/kube-proxy /usr/local/bin/
 RUN set -x \
