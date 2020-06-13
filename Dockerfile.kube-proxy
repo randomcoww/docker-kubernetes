@@ -21,7 +21,7 @@ RUN set -x \
 
 ## https://github.com/kubernetes/kubernetes/blob/master/build/debian-iptables/Dockerfile
 # There is bug with iptables-nft-restore on alpine:edge. Use 3.11.
-FROM alpine:3.12
+FROM alpine:3.11
 
 COPY --from=BUILD /go/src/github.com/kubernetes/kubernetes/_output/bin/kube-proxy /usr/local/bin/
 RUN set -x \
