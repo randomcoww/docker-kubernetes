@@ -21,7 +21,7 @@ RUN set -x \
 
 ## Smaller kubelet image for running simple static pods
 ## https://github.com/kubernetes/kubernetes/blob/master/build/debian-hyperkube-base/Dockerfile
-# There is bug with iptables-nft-restore on alpine:edge. Use 3.11.
+## 3.12 fixes an issue with blkid returns invalid output
 FROM alpine:3.12
 
 COPY --from=BUILD /go/src/github.com/kubernetes/kubernetes/_output/bin/kubelet /usr/local/bin/
