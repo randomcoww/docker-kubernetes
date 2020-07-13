@@ -1,28 +1,7 @@
-FROM golang:1.13-alpine as BUILD
-
-WORKDIR /go/src/github.com/kubernetes
-ENV VERSION v1.18.3
-
-RUN set -x \
-  \
-  && apk add --no-cache \
-    git \
-    make \
-    bash \
-    rsync \
-    g++ \
-    linux-headers \
-  \
-  && git clone -b $VERSION \
-    https://github.com/kubernetes/kubernetes.git \
-  && cd kubernetes \
-  && make -j "$(getconf _NPROCESSORS_ONLN)" \
-    kube-apiserver \
-    kube-controller-manager \
-    kube-scheduler
+FROM randomcoww/kubernetes:base-v1.18.5 AS BASE
 
 FROM scratch
 
-COPY --from=BUILD /go/src/github.com/kubernetes/kubernetes/_output/bin/kube-apiserver /usr/local/bin/
-COPY --from=BUILD /go/src/github.com/kubernetes/kubernetes/_output/bin/kube-controller-manager /usr/local/bin/
-COPY --from=BUILD /go/src/github.com/kubernetes/kubernetes/_output/bin/kube-scheduler /usr/local/bin/
+COPY --from=BASE /usr/local/bin/kube-apiserver /usr/local/bin/
+COPY --from=BASE /usr/local/bin/kube-controller-manager /usr/local/bin/
+COPY --from=BASE /usr/local/bin/kube-scheduler /usr/local/bin/

@@ -1,30 +1,11 @@
-FROM golang:1.13-alpine as BUILD
-
-WORKDIR /go/src/github.com/kubernetes
-ENV VERSION v1.18.3
-
-RUN set -x \
-  \
-  && apk add --no-cache \
-    git \
-    make \
-    bash \
-    rsync \
-    g++ \
-    linux-headers \
-  \
-  && git clone -b $VERSION \
-    https://github.com/kubernetes/kubernetes.git \
-  && cd kubernetes \
-  && make -j "$(getconf _NPROCESSORS_ONLN)" \
-    kubelet
+FROM randomcoww/kubernetes:base-v1.18.5 AS BASE
 
 ## Smaller kubelet image for running simple static pods
 ## https://github.com/kubernetes/kubernetes/blob/master/build/debian-hyperkube-base/Dockerfile
 ## 3.12 fixes an issue with blkid returns invalid output
-FROM alpine:3.12
+FROM alpine:edge
 
-COPY --from=BUILD /go/src/github.com/kubernetes/kubernetes/_output/bin/kubelet /usr/local/bin/
+COPY --from=BASE /usr/local/bin/kubelet /usr/local/bin/
 RUN set -x \
   \
   && apk add --no-cache \
@@ -46,7 +27,6 @@ RUN set -x \
     open-iscsi \
     blkid \
   \
-  && update-ca-certificates \
   # use nftables backend for iptables
   && cd /sbin \
   && ln -sf xtables-nft-multi iptables \
