@@ -1,4 +1,4 @@
-FROM randomcoww/kubernetes:base-v1.18.5 AS BASE
+FROM randomcoww/kubernetes:base-v1.18.8 AS BASE
 
 ## Smaller kubelet image for running simple static pods
 ## https://github.com/kubernetes/kubernetes/blob/master/build/debian-hyperkube-base/Dockerfile

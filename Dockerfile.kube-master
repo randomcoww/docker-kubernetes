@@ -1,4 +1,4 @@
-FROM randomcoww/kubernetes:base-v1.18.5 AS BASE
+FROM randomcoww/kubernetes:base-v1.18.8 AS BASE
 
 FROM scratch
 
