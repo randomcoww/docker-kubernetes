@@ -17,4 +17,8 @@ RUN set -x \
   && cd /sbin \
   && ln -sf xtables-nft-multi iptables \
   && ln -sf xtables-nft-multi iptables-restore \
-  && ln -sf xtables-nft-multi iptables-save
+  && ln -sf xtables-nft-multi iptables-save \
+  \
+  # kubelet expects some binaries at /usr/sbin
+  && ln -s /sbin/* /usr/sbin/ \
+  && ln -s /bin/* /usr/bin/
