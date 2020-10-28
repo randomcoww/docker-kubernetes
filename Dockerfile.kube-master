@@ -1,4 +1,5 @@
-FROM randomcoww/kubernetes:base-v1.18.8 AS BASE
+ARG VERSION=v1.18.8
+FROM randomcoww/kubernetes:base-$VERSION AS BASE
 
 FROM scratch
 
