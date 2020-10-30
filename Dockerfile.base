@@ -1,7 +1,7 @@
 FROM golang:1.15-alpine as BUILD
 
 WORKDIR /go/src/github.com/kubernetes
-ARG VERSION=v1.19.1
+ARG VERSION=v1.19.3
 
 RUN set -x \
   \
