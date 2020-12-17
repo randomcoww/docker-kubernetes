@@ -1,4 +1,4 @@
-ARG VERSION=v1.19.3
+ARG VERSION=v1.20.0
 FROM randomcoww/kubernetes:base-$VERSION AS BASE
 
 FROM scratch
