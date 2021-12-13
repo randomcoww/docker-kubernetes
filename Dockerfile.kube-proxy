@@ -1,5 +1,5 @@
-ARG VERSION=v1.20.0
-FROM randomcoww/kubernetes:base-$VERSION AS BASE
+ARG VERSION
+FROM ghcr.io/randomcoww/kubernetes:base-$VERSION AS BASE
 
 ## https://github.com/kubernetes/kubernetes/blob/master/build/debian-iptables/Dockerfile
 # There is bug with iptables-nft-restore on alpine:edge. Use 3.11.
