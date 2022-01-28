@@ -21,7 +21,8 @@ RUN set -x \
     kube-controller-manager \
     kube-scheduler \
     kube-proxy \
-    kubelet
+    kubelet \
+    kubectl
 
 FROM scratch
 

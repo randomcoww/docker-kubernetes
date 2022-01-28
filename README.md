@@ -2,7 +2,7 @@
 
 ```
 GO_VERSION=1.17
-VERSION=v1.22.4
+VERSION=v1.23.3
 
 buildah build \
   --build-arg VERSION=$VERSION \
@@ -38,4 +38,19 @@ buildah commit $container ghcr.io/randomcoww/kubernetes:kubelet-$VERSION
 buildah push ghcr.io/randomcoww/kubernetes:kube-master-$VERSION
 buildah push ghcr.io/randomcoww/kubernetes:kube-proxy-$VERSION
 buildah push ghcr.io/randomcoww/kubernetes:kubelet-$VERSION
+```
+
+#### Addon-manager
+
+```
+VERSION=master
+KUBECTL_VERSION=v1.23.3
+
+buildah build \
+  --build-arg VERSION=$VERSION \
+  --build-arg KUBECTL_VERSION=$KUBECTL_VERSION \
+  -f Dockerfile.addon-manager \
+  -t ghcr.io/randomcoww/kubernetes-addon-manager:$VERSION
+
+buildah push ghcr.io/randomcoww/kubernetes-addon-manager:$VERSION
 ```
